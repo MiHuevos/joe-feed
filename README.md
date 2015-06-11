@@ -33,3 +33,9 @@ Router.run(routes, req.url, (Handler, state) => {
   });
 });
 ```
+```js
+flux.dispatch(ACTION_NAME, params);
+flux.state.kaki.....
+
+flux.stores.kaki.reducerFunction().....
+```
