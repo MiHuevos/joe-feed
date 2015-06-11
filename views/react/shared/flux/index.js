@@ -21,6 +21,7 @@ class Flux extends Microcosm {
  * 		return (<div>{ this.props.storeName.somethingInTheStore }</div>);
  * 	}
  * }
+ * ```
  *
  * @param  {Array|string} storeNames The store names to listen to
  */
