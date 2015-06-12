@@ -6,6 +6,10 @@ class Root extends React.Component {
     flux: React.PropTypes.object.isRequired,
   };
 
+  static contextTypes = {
+    router: React.PropTypes.func
+  };
+
   static childContextTypes = {
     flux: React.PropTypes.object,
   };
@@ -17,7 +21,7 @@ class Root extends React.Component {
   };
 
   render() {
-    return <App />;
+    return <App params={ this.context.router.getCurrentParams() } />;
   }
 }
 

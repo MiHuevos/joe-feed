@@ -4,7 +4,8 @@ const { RouteHandler } = require('react-router');
 
 class App extends React.Component {
   static propTypes = {
-    posts: React.PropTypes.arrayOf(React.PropTypes.object)
+    posts: React.PropTypes.arrayOf(React.PropTypes.object),
+    params: React.PropTypes.object.isRequired,
   };
 
   render() {
@@ -13,7 +14,7 @@ class App extends React.Component {
         <h2>
           welcome to the app
         </h2>
-        <RouteHandler />
+        <RouteHandler params={ this.props.params } />
       </div>
     );
   }

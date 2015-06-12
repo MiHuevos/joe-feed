@@ -1,11 +1,13 @@
 const Microcosm = require('microcosm');
 const React = require('react');
 const PostStore = require('./post-store');
+const OwnersStore = require('./owners-store');
 
 class Flux extends Microcosm {
   constructor() {
     super();
     this.addStore('posts', PostStore);
+    this.addStore('owners', OwnersStore);
   }
 }
 
