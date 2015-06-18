@@ -3,16 +3,8 @@ const React = require('react');
 const RootComponent = require('./root-component');
 const Owner = require('./screens/App/screens/Owner');
 const sliceAt = require('utils/slice-at');
-const Im = require('immutable');
 const OwnersActions = require('flux/owners-actions');
 const PostsActions = require('flux/posts-actions');
-
-const getAuthorData = (authors) => {
-  return Promise.resolve([{
-    id: 'gal',
-    name: 'גל שלזינגר'
-  }]);
-};
 
 const loadPostsAuthorsAndOwnersIfTheyDoesntExistOn = ({ flux }) => {
   return (nextState, transition) => {
