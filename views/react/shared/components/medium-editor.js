@@ -1,16 +1,31 @@
 const React = require('react');
-const MediumEditor = require('medium-editor');
-const MarkdownExtension = require('medium-editor-markdown');
+const toMarkdown = require('to-markdown');
 
-class MediumEditor extends React.Component {
+if (process.env.IS_WEBPACK) {
+  var MediumEditor = require('medium-editor');
+  require('medium-editor/dist/css/medium-editor.css');
+  require('medium-editor/dist/css/themes/default.css');
+}
+
+class MediumMarkdownEditor extends React.Component {
+  static propTypes = {
+    onChange: React.PropTypes.func,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: ''
+    };
+  };
+
   componentDidMount() {
     const editor = React.findDOMNode(this.refs.editor);
     this.mediumEditor = new MediumEditor(editor, {
-      placeholder: 'hagever',
-      extensions: {
-        markdown: new MarkdownExtension(innerMarkdown => this.onChange(innerMarkdown))
-      }
+      placeholder: false
     });
+
+    this.mediumEditor.subscribe('editableInput', this.onChange.bind(this));
   }
 
   componentWillUnmount() {
@@ -18,15 +33,22 @@ class MediumEditor extends React.Component {
     this.mediumEditor.destroy();
   }
 
-  onChange(markdown) {
-    console.log(markdown);
+  onChange(ev) {
+    const marked = toMarkdown(ev.target.innerHTML).trim();
+    this.setState({ text: marked });
+    if (this.props.onChange) {
+      this.props.onChange(marked);
+    }
   }
 
   render() {
     return (
-      <div ref="editor" />
+      <div>
+        { this.state.text === '' && <div style={{ position: 'absolute', zIndex: -1 }}>הטקסט שלך כאן...</div> }
+        <div style={{ outline: 0 }} ref="editor" className='markdown-editor' />
+      </div>
     );
   }
 }
 
-module.exports = MediumEditor;
+module.exports = MediumMarkdownEditor;

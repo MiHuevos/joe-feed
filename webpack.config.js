@@ -18,7 +18,8 @@ var webpackConf = {
     loaders: [
       { test: /views[\/\\]react.*\.js$/, loader: 'babel-loader?cacheDirectory=true&stage=0' },
       { test: /\.(png|jpg)$/, loader: 'file-loader' },
-      { test: /\.json$/, loader: 'json-loader' }
+      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.css$/, loader: 'style!css' }
     ]
   },
   resolve: {
@@ -38,6 +39,9 @@ var webpackConf = {
     },
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }),
+    new webpack.DefinePlugin({
+      'process.env.IS_WEBPACK': 'true'
     })
   ]
 };

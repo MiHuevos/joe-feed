@@ -8,6 +8,7 @@ class Flux extends Microcosm {
     super();
     this.addStore('posts', PostsStore);
     this.addStore('owners', OwnersStore);
+    this.addStore('userData', {});
   }
 }
 

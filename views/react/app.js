@@ -8,8 +8,14 @@ const { Router } = require('react-router');
 const BrowserHistory = require('react-router/lib/BrowserHistory');
 const flux = new Flux();
 const browserHistory = new BrowserHistory();
+const Im = require('immutable');
+var lastFlux = Im.Map();
 
 flux.listen(() => {
+  const newFlux = Im.fromJS(flux.toJSON());
+  if (Im.is(newFlux, lastFlux)) return;
+  console.log('rerender..');
+  lastFlux = newFlux;
   React.render(
     <Router
       children={ routes({ flux, shouldListen: true }) }

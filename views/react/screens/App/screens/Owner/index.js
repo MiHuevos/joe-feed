@@ -2,37 +2,35 @@ const React = require('react');
 const { listen } = require('flux');
 const Im = require('immutable');
 const Post = require('./post');
+const sliceAt = require('utils/slice-at');
 const { Link } = require('react-router');
+const MediumEditor = require('components/medium-editor');
 
-@listen(['posts', 'owners'])
+@listen(['posts', 'owners', 'userData'])
 class Owner extends React.Component {
   static propTypes = {
-    posts: React.PropTypes.instanceOf(Im.List),
+    posts: React.PropTypes.instanceOf(Im.Map),
     owners: React.PropTypes.instanceOf(Im.Set),
     actions: React.PropTypes.instanceOf(Im.Map),
     params: React.PropTypes.object.isRequired,
   };
 
-  componentDidMount() {
-    if (!this.ownerData(this.props.params.owner).name) {
-      this.props.actions.get('fetchOwner')(this.props.params.owner);
-    }
-  }
-
   ownerData(ownerId) {
-    if (ownerId.charAt(0) === '@') {
-      ownerId = ownerId.slice(1);
-    }
     const ownerData = this.props.owners.filter(owner => (
-      owner.get('id') === ownerId
+      owner.get('id') === sliceAt(ownerId)
     )).first();
     return ownerData ? ownerData.toJS() : {};
   }
 
   posts() {
     return this.props.posts.filter(post => (
-      post.get('postedOn') === this.props.params.owner
+      post.get('postedOn') === this.props.params.owner ||
+      post.get('author') === sliceAt(this.props.params.owner)
     )).valueSeq().toJS();
+  }
+
+  handleChangeData(marked) {
+    console.log(marked);
   }
 
   render() {
@@ -40,8 +38,14 @@ class Owner extends React.Component {
 
     return (
       <div>
-        <h2>Posts by { name }</h2>
-        <h3><Link to={ `/magma` }>magma</Link> <Link to="/@gal">gal</Link></h3>
+        <h2>הזרם של { name }</h2>
+        <h3>
+          <Link to={ `/magma` }>magma</Link>
+          <Link to="/@gal">gal</Link>
+          <Link to="/@tomer">tomer</Link>
+          <Link to="/@arieljannai">ariel</Link>
+        </h3>
+        { this.props.userData.remoteUser === sliceAt(this.props.params.owner) && <MediumEditor onChange={ this.handleChangeData } /> }
         <ul>
           {this.posts().map(post => (
             <li key={ post.id }>
