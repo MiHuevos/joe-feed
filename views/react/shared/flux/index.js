@@ -1,12 +1,12 @@
 const Microcosm = require('microcosm');
 const React = require('react');
-const PostStore = require('./post-store');
+const PostsStore = require('./posts-store');
 const OwnersStore = require('./owners-store');
 
 class Flux extends Microcosm {
   constructor() {
     super();
-    this.addStore('posts', PostStore);
+    this.addStore('posts', PostsStore);
     this.addStore('owners', OwnersStore);
   }
 }
@@ -32,10 +32,6 @@ const listen = (storeNames) => {
     if (typeof storeNames === 'string') storeNames = [storeNames];
 
     class StoreListenerComponent extends React.Component {
-      static contextTypes = {
-        flux: React.PropTypes.object.isRequired,
-      };
-
       componentDidMount() {
         // Subscribe and change state?
         // storeNames.forEach?
@@ -48,7 +44,7 @@ const listen = (storeNames) => {
 
       render() {
         const stores = storeNames.reduce((storesObject, storeName) => {
-          storesObject[storeName] = this.context.flux.get(storeName);
+          storesObject[storeName] = this.props.route.flux.get(storeName);
           return storesObject;
         }, {});
 

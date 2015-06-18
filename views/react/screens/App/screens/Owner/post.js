@@ -19,6 +19,7 @@ class Post extends React.Component {
         <h1>{ this.props.title }</h1>
         <main dangerouslySetInnerHTML={{__html: marked(this.props.text)}} />
         <div>
+          {this.props.author.name !== this.props.owner.name && `${this.props.author.name} @ ` }
           { this.props.owner.name }
         </div>
       </article>

@@ -3,11 +3,7 @@ const App = require('./screens/App');
 
 class Root extends React.Component {
   static propTypes = {
-    flux: React.PropTypes.object.isRequired,
-  };
-
-  static contextTypes = {
-    router: React.PropTypes.func
+    route: React.PropTypes.object,
   };
 
   static childContextTypes = {
@@ -16,12 +12,12 @@ class Root extends React.Component {
 
   getChildContext() {
     return {
-      flux: this.props.flux,
+      flux: this.props.route.flux,
     };
   };
 
   render() {
-    return <App params={ this.context.router.getCurrentParams() } />;
+    return <App {...this.props} />;
   }
 }
 

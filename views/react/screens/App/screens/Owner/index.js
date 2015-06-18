@@ -2,53 +2,57 @@ const React = require('react');
 const { listen } = require('flux');
 const Im = require('immutable');
 const Post = require('./post');
+const { Link } = require('react-router');
 
 @listen(['posts', 'owners'])
 class Owner extends React.Component {
   static propTypes = {
     posts: React.PropTypes.instanceOf(Im.List),
-    owners: React.PropTypes.instanceOf(Im.List),
+    owners: React.PropTypes.instanceOf(Im.Set),
+    actions: React.PropTypes.instanceOf(Im.Map),
     params: React.PropTypes.object.isRequired,
   };
 
-  ownerSearchInfo() {
-    const owner = this.props.params.owner;
-    const isUser = owner.charAt(0) === '@';
-    return {
-      type: isUser ? 'user' : 'group',
-      name: isUser ? owner.slice(1) : owner
-    };
+  componentDidMount() {
+    if (!this.ownerData(this.props.params.owner).name) {
+      this.props.actions.get('fetchOwner')(this.props.params.owner);
+    }
   }
 
-  ownerData() {
-    const ownerSearchInfo = this.ownerSearchInfo();
-    return this.props.owners.filter(owner => (
-      owner.get('id') === ownerSearchInfo.name && owner.get('type') === ownerSearchInfo.type
-    )).first().toJS();
+  ownerData(ownerId) {
+    if (ownerId.charAt(0) === '@') {
+      ownerId = ownerId.slice(1);
+    }
+    const ownerData = this.props.owners.filter(owner => (
+      owner.get('id') === ownerId
+    )).first();
+    return ownerData ? ownerData.toJS() : {};
   }
 
   posts() {
-    var ownerSearchInfo = this.ownerSearchInfo();
     return this.props.posts.filter(post => (
-      post.get('owner').get('type') === ownerSearchInfo.type && post.get('owner').get('name') === ownerSearchInfo.name
-    )).toJS();
+      post.get('postedOn') === this.props.params.owner
+    )).valueSeq().toJS();
   }
 
   render() {
-    const { name } = this.ownerData();
+    const { name } = this.ownerData(this.props.params.owner);
 
     return (
       <div>
         <h2>Posts by { name }</h2>
+        <h3><Link to={ `/magma` }>magma</Link> <Link to="/@gal">gal</Link></h3>
         <ul>
           {this.posts().map(post => (
-            <li>
+            <li key={ post.id }>
               <Post
-                key={ post.id }
                 title={ post.title }
                 text={ post.text }
                 owner={{
-                  name: this.ownerData().name
+                  name: this.ownerData(post.postedOn).name
+                }}
+                author={{
+                  name: this.ownerData(post.author).name
                 }}
               />
             </li>

@@ -15,16 +15,20 @@
     "app-module-path": "^1.0.2",
     "babel": "^5.5.6",
     "bluebird": "^2.9.27",
+    "ejs": "^2.3.1",
     "express": "^4.12.4",
     "immutable": "^3.7.3",
     "marked": "^0.3.3",
+    "medium-editor": "^5.0.0-rc.1",
+    "medium-editor-markdown": "^1.2.0",
     "microcosm": "^8.1.0",
     "object-assign": "^3.0.0",
     "react": "^0.13.3",
     "react-immutable-proptypes": "^1.0.0",
-    "react-router": "^0.13.3",
+    "react-router": "^1.0.0-beta2",
     "redux": "^0.9.0",
-    "rethinkdb": "^2.0.0-1"
+    "rethinkdb": "^2.0.0-1",
+    "superagent": "^1.2.0"
   },
   "devDependencies": {
     "babel-eslint": "^3.1.15",

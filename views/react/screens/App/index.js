@@ -1,11 +1,11 @@
 const React = require('react');
 const { listen } = require('flux');
-const { RouteHandler } = require('react-router');
 
 class App extends React.Component {
   static propTypes = {
     posts: React.PropTypes.arrayOf(React.PropTypes.object),
     params: React.PropTypes.object.isRequired,
+    children: React.PropTypes.node,
   };
 
   render() {
@@ -14,7 +14,7 @@ class App extends React.Component {
         <h2>
           welcome to the app
         </h2>
-        <RouteHandler params={ this.props.params } />
+        { this.props.children }
       </div>
     );
   }
