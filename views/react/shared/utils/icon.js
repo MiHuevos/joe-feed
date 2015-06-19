@@ -15,7 +15,8 @@ class Icon extends React.Component {
     verticalAlign: React.PropTypes.oneOf([
       "middle",
       "top",
-      "bottom"
+      "bottom",
+      "inherit"
     ])
   };
 
