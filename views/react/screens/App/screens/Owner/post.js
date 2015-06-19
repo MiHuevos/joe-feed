@@ -15,10 +15,12 @@ class Post extends React.Component {
 
   render() {
     return (
-      <article>
-        <h1>{ this.props.title }</h1>
+      <article style={{
+          margin: '1em 0',
+      }}>
+        <h1 style={{ marginBottom: '0.2em' }}>{ this.props.title }</h1>
         <main dangerouslySetInnerHTML={{__html: marked(this.props.text)}} />
-        <div>
+        <div style={{ fontSize: '0.8em', textAlign: 'left' }}>
           {this.props.author.name !== this.props.owner.name && `${this.props.author.name} @ ` }
           { this.props.owner.name }
         </div>

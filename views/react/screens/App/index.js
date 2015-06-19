@@ -1,5 +1,5 @@
 const React = require('react');
-const { listen } = require('flux');
+const TopBar = require('./top-bar');
 
 class App extends React.Component {
   static propTypes = {
@@ -10,10 +10,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <h2>
-          welcome to the app
-        </h2>
+      <div style={{
+        backgroundColor: '#f7f7f7',
+        minHeight: '95vh',
+        boxShadow: '0 0 5px rgba(0,0,0,0.4)',
+      }}>
+        <TopBar />
         { this.props.children }
       </div>
     );

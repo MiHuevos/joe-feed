@@ -1,6 +1,8 @@
 <html dir="rtl">
 <head>
   <link rel="stylesheet" href="/open-sans/opensans.css" />
+  <link rel="stylesheet" href="/cssreset.css" />
+  <link rel="stylesheet" href="/dist/bundle.css" />
   <style>
     * {
       font-family: 'Open Sans Hebrew';
@@ -10,10 +12,24 @@
       min-width: 100vw;
       margin: 0;
     }
+
+    body {
+      background-image: -webkit-linear-gradient(top, #99ccff 30%, #eee 30%);
+    }
+
+    /*#main::before {*/
+
+    #main > div {
+      z-index: 1;
+      margin: auto;
+      margin-top: 1.1em;
+      width: 90vw;
+      max-width: 100vw !important;
+    }
   </style>
 </head>
 <body>
-  <div id="main"><%- kaki %></div>
+  <div id="main"><%- prerenderedReact %></div>
   <script>
     window.initialState = <%- JSON.stringify(anotherKaki) %>;
   </script>

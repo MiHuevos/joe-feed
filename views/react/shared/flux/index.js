@@ -33,19 +33,13 @@ const listen = (storeNames) => {
     if (typeof storeNames === 'string') storeNames = [storeNames];
 
     class StoreListenerComponent extends React.Component {
-      componentDidMount() {
-        // Subscribe and change state?
-        // storeNames.forEach?
-      }
-
-      componentWillUnmount() {
-        // Unsubscribe?
-        // storeNames.forEach?
-      }
+      static contextTypes = {
+        flux: React.PropTypes.object,
+      };
 
       render() {
         const stores = storeNames.reduce((storesObject, storeName) => {
-          storesObject[storeName] = this.props.route.flux.get(storeName);
+          storesObject[storeName] = this.context.flux.get(storeName);
           return storesObject;
         }, {});
 
@@ -60,5 +54,24 @@ const listen = (storeNames) => {
   };
 };
 
+const route = (Component) => {
+  return class RouteHelper extends React.Component {
+    static childContextTypes = {
+      flux: React.PropTypes.object,
+    }
+
+    getChildContext() {
+      return {
+        flux: this.props.route.flux
+      };
+    }
+
+    render() {
+      return (<Component {...this.props} />);
+    }
+  };
+};
+
 Flux.listen = listen;
+Flux.route = route;
 module.exports = Flux;

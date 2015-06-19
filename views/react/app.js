@@ -14,7 +14,7 @@ var lastFlux = Im.Map();
 flux.listen(() => {
   const newFlux = Im.fromJS(flux.toJSON());
   if (Im.is(newFlux, lastFlux)) return;
-  console.log('rerender..');
+  if (lastFlux) console.log('rerender..');
   lastFlux = newFlux;
   React.render(
     <Router

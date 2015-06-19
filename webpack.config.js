@@ -2,6 +2,7 @@
 
 var path = require('path');
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var isProduction = process.env.NODE_ENV === 'production';
 
 var webpackConf = {
@@ -16,10 +17,15 @@ var webpackConf = {
   },
   module: {
     loaders: [
-      { test: /views[\/\\]react.*\.js$/, loader: 'babel-loader?cacheDirectory=true&stage=0' },
+      { test: /(views[\/\\]react.*|node_modules\/react-fa)\.js$/, loader: 'babel-loader?cacheDirectory=true&stage=0' },
       { test: /\.(png|jpg)$/, loader: 'file-loader' },
       { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.css$/, loader: 'style!css' }
+      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
+      {
+        test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)$/,
+        loader: 'url-loader?limit=8192'
+      },
+      { test: /\.(eot)$/, loader: 'url' },
     ]
   },
   resolve: {
@@ -42,7 +48,8 @@ var webpackConf = {
     }),
     new webpack.DefinePlugin({
       'process.env.IS_WEBPACK': 'true'
-    })
+    }),
+    new ExtractTextPlugin('bundle.css'),
   ]
 };
 
