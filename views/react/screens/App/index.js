@@ -62,7 +62,7 @@ class App extends React.Component {
               width: '33%',
               paddingRight: 400,
               marginRight: -400,
-              //transform: 'translateX(50vw)',
+              transform: 'translateX(50vw)',
               boxShadow: '0 0 10px rgba(0,0,0,.5)'
             }}
             animationProperties={{
