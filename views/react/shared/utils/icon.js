@@ -17,7 +17,8 @@ class Icon extends React.Component {
       "top",
       "bottom",
       "inherit"
-    ])
+    ]),
+    onClick: React.PropTypes.func,
   };
 
   render() {
@@ -28,6 +29,7 @@ class Icon extends React.Component {
           verticalAlign: this.props.verticalAlign || 'middle',
           fontSize: `${this.props.size}em`,
         }}
+        onClick={ this.props.onClick }
       />
     );
   }
