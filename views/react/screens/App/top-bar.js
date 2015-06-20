@@ -2,6 +2,7 @@ const React = require('react');
 const colors = require('utils/colors');
 const { listen } = require('flux');
 const Icon = require('utils/icon');
+const Tappable = require('react-tappable');
 
 @listen(['userData'])
 class TopBar extends React.Component {
@@ -37,11 +38,12 @@ class TopBar extends React.Component {
           flex: '0 0 auto',
           padding: '0.5em',
         }}>
-          <Icon
-            onClick={ this.props.onMenuToggle }
+          <Tappable
+            onTap={ this.props.onMenuToggle }
             name="menu"
-            size="1.3"
-          />
+          >
+            <Icon name="menu" size="1.3" />
+          </Tappable>
           {' '}
           <span
             style={{

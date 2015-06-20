@@ -5,6 +5,7 @@ const Owner = require('./screens/App/screens/Owner');
 const sliceAt = require('utils/slice-at');
 const OwnersActions = require('flux/owners-actions');
 const PostsActions = require('flux/posts-actions');
+const NewPost = require('./screens/App/screens/Owner/new-post');
 
 const moment = require('moment');
 var lastCheckedForPosts = {};
@@ -47,6 +48,11 @@ module.exports = ({ flux, shouldListen }) => (
       path='/:owner'
       flux={ flux }
       component={ Owner }
-    />
+    >
+      <Route
+        path='new'
+        component={ NewPost }
+      />
+    </Route>
   </Route>
 );

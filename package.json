@@ -29,6 +29,7 @@
     "react-immutable-proptypes": "^1.0.0",
     "react-router": "^1.0.0-beta2",
     "react-tap-event-plugin": "^0.1.7",
+    "react-tappable": "^0.5.1",
     "redux": "^0.9.0",
     "rethinkdb": "^2.0.0-1",
     "superagent": "^1.2.0",

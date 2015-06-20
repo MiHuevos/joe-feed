@@ -71,15 +71,9 @@ class Owner extends React.Component {
           הזרם של { name }
         </h1>
         {
-          canEdit && this.state.isEditing && (
-            <div style={{
-              marginBottom: '1em',
-            }}>
-              <MediumEditor onChange={ this.handleChangeData } />
-            </div>
-          )
+          canEdit &&  (this.props.children)
         }
-        { canEdit && <button onClick={ () => this.setState({ isEditing: !this.state.isEditing })}>משהו חדש..</button> }
+        { canEdit && <Link to={`/${this.props.params.owner}/new`}>משהו חדש..</Link> }
         <ul>
           {this.posts().map(post => (
             <li key={ post.id }>

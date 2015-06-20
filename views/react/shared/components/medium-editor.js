@@ -17,11 +17,15 @@ class MediumMarkdownEditor extends React.Component {
     super(props);
     this.focusOnEditor = this.focusOnEditor.bind(this);
     this.state = {
-      text: ''
+      text: '',
+      javascriptEnabled: false,
     };
   };
 
   componentDidMount() {
+    this.setState({
+      javascriptEnabled: true,
+    });
     const editor = React.findDOMNode(this.refs.editor);
     this.mediumEditor = new MediumEditor(editor, {
       placeholder: false
@@ -72,7 +76,22 @@ class MediumMarkdownEditor extends React.Component {
         padding: '0.3em',
         backgroundColor: '#fff',
       }}>
-        <div style={{ position: 'relative'}}>
+        <textarea
+          style={{
+            display: this.state.javascriptEnabled ? 'none' : 'block',
+            width: '100%',
+            border: 0,
+            fontFamily: 'Arial',
+            outline: 0,
+            fontSize: '100%',
+          }}
+          placeholder='הטקסט שלך כאן...'
+          name='markdown'
+        />
+        <div style={{
+          position: 'relative',
+          display: this.state.javascriptEnabled ? 'block' : 'none',
+        }}>
           <div
             style={{
               outline: 0,

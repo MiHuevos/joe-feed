@@ -1,6 +1,7 @@
 const React = require('react');
 const TopBar = require('./top-bar');
 const colors = require('utils/colors');
+const Tappable = require('react-tappable');
 const DynamicTransition = require('utils/dynamic-transition');
 
 class App extends React.Component {
@@ -44,11 +45,11 @@ class App extends React.Component {
           <DynamicTransition
             type="spring"
             animateFrom={{
-              translateX: '50vw',
+              translateX: 500,
               opacity: 0,
             }}
             animateTo={{
-              translateX: 40,
+              translateX: 0,
               opacity: 1,
             }}
             runTo={ this.state.isMenuToggled ? 'finish' : 'start' }
@@ -59,8 +60,9 @@ class App extends React.Component {
               backgroundColor: colors.blue.dark,
               color: colors.white.bright,
               width: '33%',
-              paddingRight: 40,
-              opacity: 0,
+              paddingRight: 400,
+              marginRight: -400,
+              //transform: 'translateX(50vw)',
               boxShadow: '0 0 10px rgba(0,0,0,.5)'
             }}
             animationProperties={{
@@ -68,7 +70,8 @@ class App extends React.Component {
               duration: 500,
             }}
           >
-            <button
+            <Tappable
+              component='button'
               style={{
                 background: 'transparent',
                 color: 'white',
@@ -77,10 +80,10 @@ class App extends React.Component {
                 width: '100%',
                 outline: 0,
               }}
-              onClick={ () => alert('hello.') }
+              onTap={ () => alert('hello.') }
             >
               Menu Item.
-            </button>
+            </Tappable>
           </DynamicTransition>
           { this.props.children }
         </div>
