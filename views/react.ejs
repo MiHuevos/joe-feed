@@ -14,7 +14,7 @@
     }
 
     body {
-      background-image: -webkit-linear-gradient(top, #274A6C 30%, #eee 30%);
+      background-color: #eee;
     }
 
     /*#main::before {*/
@@ -29,6 +29,16 @@
   </style>
 </head>
 <body>
+  <div style="
+    background-color: #274A6C;
+    position: absolute;
+    width: 100vw;
+    height: 30vh;
+    left: 0;
+    top: 0;
+    z-index: -1;
+  ">
+  </div>
   <div id="main"><%- prerenderedReact %></div>
   <script>
     window.initialState = <%- JSON.stringify(anotherKaki) %>;
