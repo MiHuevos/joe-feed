@@ -2,14 +2,31 @@ const React = require('react');
 const dynamics = require('dynamics.js');
 
 /**
+ * Using dynamics.js to transition things or just animate
+ * ------------------------------------------------------
+ * props:
+ *  - runTo               enum("start", "finish)       - which way to run.
+ *  - onComplete          callback
+ *  - onChange            callback
+ *  - type                enum(look at dynamicjs docs) - how to run it.
+ *  - animateFrom         object                       - Start position for the animation (A)
+ *  - animateTo           object                       - End position for the animation (B)
+ *  - animationProperties object                       - animation properties + more options for dynamics.js
+ * ------------------------------------------------------
  * <DynamicTransition
- * 	runTo={ isStart ? 'start' : 'finish' } - Specify which run, to update props...
+ * 	runTo={ this.state.animationToggle ? 'start' : 'finish' }
  * 	onComplete={ () => {} }
  * 	onChange={ () => {} }
- * 	transition='spring' - Or an object
- * 	animateFrom={ {} }
- * 	animateTo={ {} }
- *  options={ {} }
+ * 	type='spring'
+ * 	animateFrom={{ translateX: 0 }}
+ * 	animateTo={{ translateX: -200 }}
+ *  animationProperties={{
+ *    friction: 100,
+ *    duration: 1200,
+ *  }}
+ * >
+ *   <span>Hello!</span>
+ * </span>
  */
 class DynamicTransition extends React.Component {
   static propTypes = {
@@ -39,15 +56,11 @@ class DynamicTransition extends React.Component {
   };
 
   componentDidMount() {
-    this.updateAnimation(this.props, {});
+    this.updateAnimation();
   }
 
   componentDidUpdate() {
-    this.updateAnimation(this.props, {});
-  }
-
-  runTo({ reverse }) {
-    return reverse ? (this.props.runTo === 'start' ? 'finish' : 'start') : this.props.runTo;
+    this.updateAnimation();
   }
 
   animationProperties() {
@@ -62,11 +75,10 @@ class DynamicTransition extends React.Component {
     };
   }
 
-  updateAnimation(nextProps, { reverse }) {
-    const runTo = this.runTo({ reverse });
+  updateAnimation() {
+    const runTo = this.props.runTo;
     const domNode = React.findDOMNode(this.refs.animated);
     setTimeout(() => {
-
       dynamics.animate(
         domNode,
         (runTo === 'start') ? this.props.animateFrom : this.props.animateTo,

@@ -16,6 +16,7 @@ class MediumMarkdownEditor extends React.Component {
   constructor(props) {
     super(props);
     this.focusOnEditor = this.focusOnEditor.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.state = {
       text: '',
       javascriptEnabled: false,
@@ -26,14 +27,19 @@ class MediumMarkdownEditor extends React.Component {
     this.setState({
       javascriptEnabled: true,
     });
+    const editorElement = this.initializeMediumEditorElement();
+    this.onChange({ target: { innerHTML: editorElement.innerHTML }});
+  }
+
+  initializeMediumEditorElement() {
     const editor = React.findDOMNode(this.refs.editor);
     this.mediumEditor = new MediumEditor(editor, {
-      placeholder: false
+      placeholder: false,
     });
     editor.innerHTML = "<h2>שלום</h2><p>כתבו פה דברים טובים</p>";
-    this.onChange({ target: { innerHTML: editor.innerHTML }});
-
-    this.mediumEditor.subscribe('editableInput', this.onChange.bind(this));
+    this.mediumEditor.subscribe('editableDrop', this.onChange);
+    this.mediumEditor.subscribe('editableInput', this.onChange);
+    return editor;
   }
 
   componentWillUnmount() {
@@ -41,12 +47,15 @@ class MediumMarkdownEditor extends React.Component {
     this.mediumEditor.destroy();
   }
 
-  onChange(ev) {
-    const marked = toMarkdown(ev.target.innerHTML).trim();
-    this.setState({ text: marked });
-    if (this.props.onChange) {
-      this.props.onChange(marked);
-    }
+  onChange() {
+    if (!this.mediumEditor) return;
+    setTimeout(() => {
+      const marked = toMarkdown(this.mediumEditor.serialize()['element-0'].value).trim();
+      this.setState({ text: marked });
+      if (this.props.onChange) {
+        this.props.onChange(marked);
+      }
+    }, 10);
   }
 
   focusOnEditor() {

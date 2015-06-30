@@ -8,5 +8,16 @@ module.exports = {
         resolve(res.body.posts);
       });
     });
+  },
+  createPost({ owner, markdown }) {
+    return new Promise((resolve, reject) => {
+      request.post(`/api/posts`).send({
+        markdown,
+        owner
+      }).end((err, res) => {
+        if (err) return reject(err);
+        resolve(res.body.post);
+      });
+    });
   }
 };

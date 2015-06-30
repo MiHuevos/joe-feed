@@ -4,7 +4,7 @@ const Im = require('immutable');
 const Post = require('./post');
 const sliceAt = require('utils/slice-at');
 const { Link } = require('react-router');
-const MediumEditor = require('components/medium-editor');
+const moment = require('moment');
 
 @route
 @listen(['posts', 'owners', 'userData'])
@@ -18,6 +18,7 @@ class Owner extends React.Component {
     }),
     actions: React.PropTypes.instanceOf(Im.Map),
     params: React.PropTypes.object.isRequired,
+    children: React.PropTypes.node,
   };
 
   constructor(props) {
@@ -38,7 +39,11 @@ class Owner extends React.Component {
     return this.props.posts.filter(post => (
       post.get('postedOn') === this.props.params.owner ||
       post.get('author') === sliceAt(this.props.params.owner)
-    )).valueSeq().toJS();
+    )).valueSeq().sort((postA, postB) => {
+      const timeA = moment(postA.get('createdAt'));
+      const timeB = moment(postB.get('createdAt'));
+      return timeA.isBefore(timeB);
+    }).toJS();
   }
 
   handleChangeData(marked) {
@@ -81,11 +86,16 @@ class Owner extends React.Component {
                 title={ post.title }
                 text={ post.text }
                 owner={{
-                  name: this.ownerData(post.postedOn).name
+                  name: this.ownerData(post.postedOn).name,
+                  id: post.postedOn,
                 }}
                 author={{
-                  name: this.ownerData(post.author).name
+                  name: this.ownerData(post.author).name,
+                  id: post.author,
                 }}
+                createdAt={ post.createdAt }
+                linkToOwner={ this.props.params.owner !== post.postedOn }
+                linkToAuthor={ sliceAt(this.props.params.owner) !== post.author }
               />
             </li>
           ))}

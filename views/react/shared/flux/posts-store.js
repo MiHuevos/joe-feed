@@ -7,7 +7,8 @@ module.exports = {
   },
   register() {
     return {
-      [PostsActions.fetchPostsData]: this.fetchedPosts
+      [PostsActions.fetchPostsData]: this.fetchedPosts,
+      [PostsActions.createPost]: this.postCreated,
     };
   },
   serialize(state) {
@@ -18,5 +19,10 @@ module.exports = {
   },
   fetchedPosts(state, fetchPosts) {
     return state.merge(Im.fromJS(fetchPosts));
+  },
+  postCreated(state, createdPost) {
+    return state.merge(Im.fromJS({
+      [createdPost.id]: createdPost
+    }));
   },
 };
