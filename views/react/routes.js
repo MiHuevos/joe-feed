@@ -12,6 +12,7 @@ var lastCheckedForPosts = {};
 
 const loadPostsAuthorsAndOwnersIfTheyDoesntExistOn = ({ flux }) => {
   return (nextState) => {
+    const postId = nextState.params.postId;
     const ownerId = sliceAt(nextState.params.owner);
     const ownerInfo = flux.get('owners').filter(owner => owner.get('id') === ownerId);
     const posts = flux.get('posts').filter(post => (
@@ -29,7 +30,17 @@ const loadPostsAuthorsAndOwnersIfTheyDoesntExistOn = ({ flux }) => {
       flux.push(OwnersActions.fetchOwnersData, [ownerId]);
     }
 
-    if (!lastCheckedForPosts[nextState.params.owner] || moment(Date.now()).diff(lastCheckedForPosts[nextState.params.owner], 'seconds') > 2) {
+    const shouldUpdate = (
+      (
+        !postId &&
+        !posts.get(postId)
+      ) && (
+        !lastCheckedForPosts[nextState.params.owner] ||
+        moment(Date.now()).diff(lastCheckedForPosts[nextState.params.owner], 'seconds') > 2
+      )
+    );
+
+    if (shouldUpdate) {
       flux.push(PostsActions.fetchPostsData, nextState.params.owner);
       lastCheckedForPosts[nextState.params.owner] = Date.now();
     }
@@ -45,12 +56,13 @@ module.exports = ({ flux, shouldListen }) => (
     <Route
       onEnter={ shouldListen && loadPostsAuthorsAndOwnersIfTheyDoesntExistOn({ flux }) }
       name='owner'
-      path='/:owner'
+      path='/:owner(/post-:postId)'
       flux={ flux }
       component={ Owner }
     >
       <Route
         path='new'
+        flux={ flux }
         component={ NewPost }
       />
     </Route>

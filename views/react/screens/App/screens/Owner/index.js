@@ -1,7 +1,7 @@
 const React = require('react');
 const { route, listen } = require('flux');
 const Im = require('immutable');
-const Post = require('./post');
+const PostList = require('./post-list');
 const sliceAt = require('utils/slice-at');
 const { Link } = require('react-router');
 const moment = require('moment');
@@ -37,12 +37,23 @@ class Owner extends React.Component {
 
   posts() {
     return this.props.posts.filter(post => (
-      post.get('postedOn') === this.props.params.owner ||
-      post.get('author') === sliceAt(this.props.params.owner)
+      (
+        !this.props.params.postId ||
+        this.props.params.postId === post.get('id')
+      ) && (
+        post.get('postedOn') === this.props.params.owner ||
+        post.get('author') === sliceAt(this.props.params.owner)
+      )
     )).valueSeq().sort((postA, postB) => {
       const timeA = moment(postA.get('createdAt'));
       const timeB = moment(postB.get('createdAt'));
-      return timeA.isBefore(timeB);
+      if (timeA.isBefore(timeB)) {
+        return 1;
+      } else if (timeB.isBefore(timeA)) {
+        return -1;
+      } else {
+        return 0;
+      }
     }).toJS();
   }
 
@@ -75,31 +86,32 @@ class Owner extends React.Component {
         }}>
           הזרם של { name }
         </h1>
-        {
-          canEdit &&  (this.props.children)
+        { canEdit && (!this.props.children ? (
+            <Link to={`/${this.props.params.owner}/new`}>משהו חדש..</Link>
+          ) : (
+            <Link to={`/${this.props.params.owner}`}>חזרה לזרם</Link>
+          ))
         }
-        { canEdit && <Link to={`/${this.props.params.owner}/new`}>משהו חדש..</Link> }
-        <ul>
-          {this.posts().map(post => (
-            <li key={ post.id }>
-              <Post
-                title={ post.title }
-                text={ post.text }
-                owner={{
-                  name: this.ownerData(post.postedOn).name,
-                  id: post.postedOn,
-                }}
-                author={{
-                  name: this.ownerData(post.author).name,
-                  id: post.author,
-                }}
-                createdAt={ post.createdAt }
-                linkToOwner={ this.props.params.owner !== post.postedOn }
-                linkToAuthor={ sliceAt(this.props.params.owner) !== post.author }
-              />
-            </li>
-          ))}
-        </ul>
+        {
+          canEdit && this.props.children && (
+            <div
+              style={{
+                marginTop: '1em',
+              }}
+            >
+              <h2>
+                הודעה חדשה
+              </h2>
+              { this.props.children }
+            </div>
+          )
+        }
+        { (!canEdit || (!this.props.children)) &&
+          <PostList
+            owner={ this.props.params.owner }
+            posts={ this.posts() }
+          />
+        }
       </div>
     );
   }

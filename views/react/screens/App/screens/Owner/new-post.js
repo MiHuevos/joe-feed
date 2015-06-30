@@ -1,7 +1,13 @@
 const React = require('react');
 const MediumEditor = require('components/medium-editor');
+const PostActions = require('flux/posts-actions');
+const { route } = require('flux');
 
+@route
 class NewPost extends React.Component {
+  static contextTypes = {
+    flux: React.PropTypes.object,
+  };
   static propTypes = {
     params: React.PropTypes.shape({
       owner: React.PropTypes.string.isRequired,
@@ -12,6 +18,7 @@ class NewPost extends React.Component {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
+      markdown: '',
     };
   }
 
@@ -21,7 +28,10 @@ class NewPost extends React.Component {
 
   onSubmit(ev) {
     ev.preventDefault();
-    console.log(`Generated markdown for ${this.props.params.owner}:`, this.state.markdown);
+    this.context.flux.push(PostActions.createPost, {
+      owner: this.props.params.owner,
+      markdown: this.state.markdown,
+    });
   }
 
   render() {

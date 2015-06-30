@@ -7,6 +7,8 @@ if (process.env.IS_WEBPACK) {
   require('medium-editor/dist/css/themes/default.css');
 }
 
+const initialText = '<h2>כותרת</h2><p>תוכן...</p>';
+
 class MediumMarkdownEditor extends React.Component {
   static propTypes = {
     onChange: React.PropTypes.func,
@@ -18,7 +20,7 @@ class MediumMarkdownEditor extends React.Component {
     this.focusOnEditor = this.focusOnEditor.bind(this);
     this.onChange = this.onChange.bind(this);
     this.state = {
-      text: '',
+      text: toMarkdown(initialText),
       javascriptEnabled: false,
     };
   };
@@ -28,15 +30,18 @@ class MediumMarkdownEditor extends React.Component {
       javascriptEnabled: true,
     });
     const editorElement = this.initializeMediumEditorElement();
-    this.onChange({ target: { innerHTML: editorElement.innerHTML }});
+    this.onChange();
   }
 
   initializeMediumEditorElement() {
     const editor = React.findDOMNode(this.refs.editor);
     this.mediumEditor = new MediumEditor(editor, {
       placeholder: false,
+      toolbar: {
+        diffLeft: -10,
+      },
     });
-    editor.innerHTML = "<h2>שלום</h2><p>כתבו פה דברים טובים</p>";
+    editor.innerHTML = initialText;
     this.mediumEditor.subscribe('editableDrop', this.onChange);
     this.mediumEditor.subscribe('editableInput', this.onChange);
     return editor;
@@ -48,7 +53,6 @@ class MediumMarkdownEditor extends React.Component {
   }
 
   onChange() {
-    if (!this.mediumEditor) return;
     setTimeout(() => {
       const marked = toMarkdown(this.mediumEditor.serialize()['element-0'].value).trim();
       this.setState({ text: marked });
@@ -94,7 +98,7 @@ class MediumMarkdownEditor extends React.Component {
             outline: 0,
             fontSize: '100%',
           }}
-          placeholder='הטקסט שלך כאן...'
+          defaultValue={toMarkdown(initialText)}
           name='markdown'
         />
         <div style={{

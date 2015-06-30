@@ -3,7 +3,10 @@ const moment = require('moment');
 
 class FromNow extends React.Component {
   static propTypes = {
-    date: React.PropTypes.string.isRequired,
+    date: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.object,
+    ]).isRequired,
   };
 
   constructor(props) {

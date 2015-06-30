@@ -9,6 +9,7 @@ marked.setOptions({
 
 class Post extends React.Component {
   static propTypes = {
+    id: React.PropTypes.string.isRequired,
     text: React.PropTypes.string.isRequired,
     owner: React.PropTypes.shape({
       name: React.PropTypes.string,
@@ -20,7 +21,10 @@ class Post extends React.Component {
     }),
     linkToOwner: React.PropTypes.bool,
     linkToAuthor: React.PropTypes.bool,
-    createdAt: React.PropTypes.string,
+    createdAt: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.object,
+    ]),
   };
 
   render() {
@@ -37,7 +41,9 @@ class Post extends React.Component {
           dangerouslySetInnerHTML={{__html: marked(this.props.text)}}
         />
         <div style={{ fontSize: '0.8em', textAlign: 'left' }}>
-          <FromNow date={ this.props.createdAt } />
+          <Link to={`/${this.props.owner.id}/post-${this.props.id}`}>
+            <FromNow date={ this.props.createdAt } />
+          </Link>
           { ' ע"י ' }
           {
             showAuthor && (
