@@ -6,6 +6,8 @@ class LinkOrString extends React.Component {
     to: React.PropTypes.string,
     children: React.PropTypes.node,
     toLink: React.PropTypes.bool,
+    textColor: React.PropTypes.string,
+    linkColor: React.PropTypes.string,
   };
 
   render() {
@@ -14,9 +16,9 @@ class LinkOrString extends React.Component {
       children,
       to
     } = this.props;
-    if (!toLink) return <span>{children}</span>;
+    if (!toLink) return <span style={{ color: this.props.textColor }}>{children}</span>;
     return (
-      <Link to={ to }>
+      <Link to={ to } style={{ color: this.props.linkColor }}>
         { children }
       </Link>
     );

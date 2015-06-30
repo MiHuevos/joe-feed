@@ -1,6 +1,7 @@
 const React = require('react');
 const marked = require('marked');
 const FromNow = require('components/from-now');
+const colors = require('utils/colors');
 const LinkOrString = require('components/link-or-string');
 const { Link } = require('react-router');
 marked.setOptions({
@@ -40,21 +41,21 @@ class Post extends React.Component {
           }}
           dangerouslySetInnerHTML={{__html: marked(this.props.text)}}
         />
-        <div style={{ fontSize: '0.8em', textAlign: 'left' }}>
-          <Link to={`/${this.props.owner.id}/post-${this.props.id}`}>
+        <div style={{ fontSize: '0.8em', textAlign: 'left', color: 'grey' }}>
+          <Link to={`/${this.props.owner.id}/post-${this.props.id}`} style={{ color: colors.blue.darker }}>
             <FromNow date={ this.props.createdAt } />
           </Link>
           { ' ע"י ' }
           {
             showAuthor && (
-              <LinkOrString toLink={ this.props.linkToAuthor } to={ `/@${this.props.author.id}`}>
+              <LinkOrString toLink={ this.props.linkToAuthor } to={ `/@${this.props.author.id}`} linkColor={ colors.blue.darker } textColor='grey'>
                 { this.props.author.name }
               </LinkOrString>
             )
           }
           { showAuthor && " בקבוצה " }
           {
-            <LinkOrString toLink={ this.props.linkToOwner } to={ `/${this.props.owner.id}` }>
+            <LinkOrString toLink={ this.props.linkToOwner } to={ `/${this.props.owner.id}` } linkColor={ colors.blue.darker } textColor='grey'>
               { this.props.owner.name }
             </LinkOrString>
           }
