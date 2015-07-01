@@ -17,7 +17,7 @@ var webpackConf = {
   },
   module: {
     loaders: [
-      { test: /(views[\/\\]react.*|node_modules\/react-fa)\.js$/, loader: 'babel-loader?cacheDirectory=true&stage=0' },
+      { test: /(views[\/\\]react.*|node_modules\/react-fa)\.js$/, loader: 'babel-loader?cacheDirectory=true&stage=0&optional=runtime' },
       { test: /\.(png|jpg)$/, loader: 'file-loader' },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },

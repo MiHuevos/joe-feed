@@ -14,12 +14,12 @@ const loadPostsAuthorsAndOwnersIfTheyDoesntExistOn = ({ flux }) => {
   return (nextState) => {
     const postId = nextState.params.postId;
     const ownerId = sliceAt(nextState.params.owner);
-    const ownerInfo = flux.get('owners').filter(owner => owner.get('id') === ownerId);
-    const posts = flux.get('posts').filter(post => (
+    const ownerInfo = flux.state.owners.filter(owner => owner.get('id') === ownerId);
+    const posts = flux.state.posts.filter(post => (
       post.get('postedOn') === nextState.params.owner ||
       post.get('author') === ownerId
     ));
-    const owners = flux.get('owners').map(o => o.get('id'));
+    const owners = flux.state.owners.map(o => o.get('id'));
     const unknownAuthors = posts.valueSeq().map(post => post.get('author')).concat(
       posts.valueSeq().map(post => sliceAt(post.get('postedOn')))
     ).filterNot(e => {

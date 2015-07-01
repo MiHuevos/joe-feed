@@ -10,6 +10,7 @@ class MenuHeader extends React.Component {
       <h2
         style={{
           paddingRight: '0.3em',
+          paddingTop: '0.2em',
         }}
       >
         { this.props.children }

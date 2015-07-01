@@ -40,7 +40,7 @@ const listen = (storeNames) => {
 
       render() {
         const stores = storeNames.reduce((storesObject, storeName) => {
-          storesObject[storeName] = this.context.flux.get(storeName);
+          storesObject[storeName] = this.context.flux.state[storeName];
           return storesObject;
         }, {});
 

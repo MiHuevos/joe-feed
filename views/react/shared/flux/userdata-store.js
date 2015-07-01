@@ -1,8 +1,9 @@
 const Actions = require('./userdata-actions');
+const initialState = require('flux/initial-state');
 
 module.exports = {
   getInitialState() {
-    return {};
+    return initialState.userData;
   },
   register() {
     return {
@@ -10,6 +11,7 @@ module.exports = {
     };
   },
   favoriteToggled(state, favorites) {
+    console.log(state, favorites);
     return {
       ...state,
       favorites

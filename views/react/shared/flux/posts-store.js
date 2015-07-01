@@ -1,9 +1,10 @@
 const Im = require('immutable');
+const initialState = require('flux/initial-state');
 const PostsActions = require('flux/posts-actions');
 
 module.exports = {
   getInitialState() {
-    return Im.Map();
+    return Im.fromJS(initialState.posts);
   },
   register() {
     return {

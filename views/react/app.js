@@ -7,7 +7,7 @@ const Flux = require('flux');
 const { Router } = require('react-router');
 const BrowserHistory = require('react-router/lib/BrowserHistory');
 const history = new BrowserHistory();
-const flux = new Flux();
+const flux = window.flux = new Flux();
 const Im = require('immutable');
 var lastFlux = Im.Map();
 require('moment').locale('he');
@@ -26,4 +26,3 @@ flux.listen(() => {
 });
 
 flux.start();
-flux.replace(window.initialState);

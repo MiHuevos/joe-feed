@@ -1,9 +1,10 @@
 const Im = require('immutable');
+const initialState = require('flux/initial-state');
 const OwnersActions = require('flux/owners-actions');
 
 module.exports = {
   getInitialState() {
-    return Im.Set();
+    return Im.fromJS(initialState.owners).toSet();
   },
   register() {
     return {

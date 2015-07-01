@@ -20,7 +20,11 @@ class Favorite extends React.Component {
   }
 
   toggleFavorite() {
-    this.props.flux.push(UserDataActions.toggleFavorite, this.props.owner);
+    this.props.flux.push(UserDataActions.toggleFavorite, this.props.owner, !this.isFavorited());
+  }
+
+  isFavorited() {
+    return this.props.userData.favorites.indexOf(this.props.owner) !== -1;
   }
 
   render() {
@@ -30,11 +34,7 @@ class Favorite extends React.Component {
           color='orange'
           verticalAlign='bottom'
           name={
-            this.props.userData.favorites.indexOf(this.props.owner) !== -1 ? (
-              'star'
-            ) : (
-              'star-outline'
-            )
+            this.isFavorited() ? 'star' : 'star-outline'
           }
         />
       </Tappable>

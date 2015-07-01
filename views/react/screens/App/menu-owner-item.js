@@ -14,6 +14,7 @@ class MenuOwnerItem extends React.Component {
   static propTypes = {
     owner: React.PropTypes.string,
     owners: React.PropTypes.instanceOf(Im.Set),
+    isAlternated: React.PropTypes.bool,
   };
 
   transitionTo() {
@@ -25,6 +26,7 @@ class MenuOwnerItem extends React.Component {
     return (
       <MenuItem
         onTap={ this.transitionTo.bind(this) }
+        isAlternated={ this.props.isAlternated }
       >
         { ownerData({ owner: this.props.owner, owners: this.props.owners }).name }
       </MenuItem>

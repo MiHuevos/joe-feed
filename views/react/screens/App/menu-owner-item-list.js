@@ -10,9 +10,9 @@ class MenuOwnerItemList extends React.Component {
     return (
       <div>
         {
-          this.props.owners.map(owner => {
+          this.props.owners.map((owner, i) => {
             return (
-              <MenuOwnerItem key={ owner } owner={ owner } />
+              <MenuOwnerItem key={ owner } isAlternated={ i % 2 === 1 } owner={ owner } />
             );
           })
         }
