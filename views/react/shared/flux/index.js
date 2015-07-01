@@ -2,13 +2,14 @@ const Microcosm = require('microcosm');
 const React = require('react');
 const PostsStore = require('./posts-store');
 const OwnersStore = require('./owners-store');
+const UserDataStore = require('./userdata-store');
 
 class Flux extends Microcosm {
   constructor() {
     super();
     this.addStore('posts', PostsStore);
     this.addStore('owners', OwnersStore);
-    this.addStore('userData', {});
+    this.addStore('userData', UserDataStore);
   }
 }
 
@@ -45,7 +46,7 @@ const listen = (storeNames) => {
 
         // Get the state and put it in the component as a prop
         return (
-          <Component {...this.props} {...stores} />
+          <Component {...this.props} flux={ this.context.flux } {...stores} />
         );
       }
     }

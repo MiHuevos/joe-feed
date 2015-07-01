@@ -4,7 +4,9 @@ const Im = require('immutable');
 const PostList = require('./post-list');
 const sliceAt = require('utils/slice-at');
 const { Link } = require('react-router');
+const Icon = require('utils/icon');
 const moment = require('moment');
+const Favorite = require('./favorite');
 
 @route
 @listen(['posts', 'owners', 'userData'])
@@ -23,9 +25,30 @@ class Owner extends React.Component {
 
   constructor(props) {
     super(props);
+    this.toggleTap = this.toggleTap.bind(this);
     this.state = {
       isEditing: false,
     };
+  }
+
+  toggleTap() {
+    console.log('toggle!');
+  }
+
+  generateAddIcon() {
+    return (
+      this.canUserEditThis() && (
+        !this.props.children ? (
+          <Link to={`/${this.props.params.owner}/new`}>
+            <Icon name='note-add' />
+          </Link>
+        ) : (
+          <Link to={`/${this.props.params.owner}`}>
+            <Icon name='delete' />
+          </Link>
+        )
+      )
+    );
   }
 
   ownerData(ownerId) {
@@ -57,16 +80,16 @@ class Owner extends React.Component {
     }).toJS();
   }
 
-  handleChangeData(marked) {
-    console.log(marked);
+  canUserEditThis() {
+    return (
+      this.props.userData.remoteUser === sliceAt(this.props.params.owner) ||
+      this.props.userData.adGroups.indexOf(this.props.params.owner) !== -1
+    );
   }
 
   render() {
     const { name } = this.ownerData(this.props.params.owner);
-    const canEdit = (
-      this.props.userData.remoteUser === sliceAt(this.props.params.owner) ||
-      this.props.userData.adGroups.indexOf(this.props.params.owner) !== -1
-    );
+    const canEdit = this.canUserEditThis();
 
     return (
       <div
@@ -74,24 +97,24 @@ class Owner extends React.Component {
           padding: '1em'
         }}
       >
+      {/*
         <h3 style={{ textAlign: 'center' }}>
           <Link to={ `/magma` }>magma</Link>
           <Link to="/@gal">gal</Link>
           <Link to="/@tomer">tomer</Link>
           <Link to="/@arieljannai">ariel</Link>
         </h3>
+      */}
         <h1 style={{
           fontSize: '1.5em',
           fontWeight: 'bolder'
         }}>
+          <Favorite owner={ this.props.params.owner } />
+          {' '}
           הזרם של { name }
+          {' '}
+          { this.generateAddIcon() }
         </h1>
-        { canEdit && (!this.props.children ? (
-            <Link to={`/${this.props.params.owner}/new`}>משהו חדש..</Link>
-          ) : (
-            <Link to={`/${this.props.params.owner}`}>חזרה לזרם</Link>
-          ))
-        }
         {
           canEdit && this.props.children && (
             <div
@@ -106,11 +129,13 @@ class Owner extends React.Component {
             </div>
           )
         }
-        { (!canEdit || (!this.props.children)) &&
-          <PostList
-            owner={ this.props.params.owner }
-            posts={ this.posts() }
-          />
+        {
+          (!canEdit || (!this.props.children)) && (
+            <PostList
+              owner={ this.props.params.owner }
+              posts={ this.posts() }
+            />
+          )
         }
       </div>
     );

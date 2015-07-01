@@ -38,6 +38,7 @@ class Post extends React.Component {
         <main
           style={{
             marginBottom: '0.4em',
+            lineHeight: '1.6em',
           }}
           dangerouslySetInnerHTML={{__html: marked(this.props.text)}}
         />
