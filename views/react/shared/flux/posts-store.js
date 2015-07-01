@@ -22,7 +22,9 @@ module.exports = {
     return state.merge(Im.fromJS(fetchPosts));
   },
   postCreated(state, createdPost) {
-    return state.merge(Im.fromJS({
+    if (createdPost.uniqueId) console.log('override!');
+    var newState = !createdPost.uniqueId ? state : state.remove(createdPost.uniqueId);
+    return newState.merge(Im.fromJS({
       [createdPost.id]: createdPost
     }));
   },

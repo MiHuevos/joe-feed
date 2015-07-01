@@ -1,5 +1,6 @@
 const React = require('react');
 const { route, listen } = require('flux');
+const colors = require('utils/colors');
 const Im = require('immutable');
 const PostList = require('./post-list');
 const sliceAt = require('utils/slice-at');
@@ -36,17 +37,20 @@ class Owner extends React.Component {
   }
 
   generateAddIcon() {
+    const url = !this.props.children ? `/${this.props.params.owner}/new` : `/${this.props.params.owner}`;
+    const iconName = !this.props.children ? 'note-add' : 'delete';
+
     return (
       this.canUserEditThis() && (
-        !this.props.children ? (
-          <Link to={`/${this.props.params.owner}/new`}>
-            <Icon name='note-add' />
+          <Link
+            to={ url }
+            style={{
+              textDecoration: 'none',
+              color: colors.blue.darker,
+            }}
+          >
+            <Icon name={ iconName } />
           </Link>
-        ) : (
-          <Link to={`/${this.props.params.owner}`}>
-            <Icon name='delete' />
-          </Link>
-        )
       )
     );
   }
@@ -130,12 +134,13 @@ class Owner extends React.Component {
           )
         }
         {
-          (!canEdit || (!this.props.children)) && (
+          (!canEdit || (
             <PostList
+              isTransparent={ !!this.props.children }
               owner={ this.props.params.owner }
               posts={ this.posts() }
             />
-          )
+          ))
         }
       </div>
     );

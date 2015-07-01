@@ -11,6 +11,7 @@ class PostList extends React.Component {
     owner: React.PropTypes.string,
     owners: React.PropTypes.instanceOf(Im.Set),
     posts: React.PropTypes.array,
+    isTransparent: React.PropTypes.bool,
   };
 
   ownerData(ownerId) {
@@ -22,7 +23,12 @@ class PostList extends React.Component {
 
   render() {
     return (
-      <ul>
+      <ul
+        style={{
+          opacity: this.props.isTransparent ? 0.4 : 1,
+          transition: 'all 0.2s ease',
+        }}
+      >
         {
           this.props.posts.map(post => (
             <li key={ post.id }>
