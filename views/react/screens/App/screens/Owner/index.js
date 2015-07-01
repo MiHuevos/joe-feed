@@ -49,7 +49,7 @@ class Owner extends React.Component {
               color: colors.blue.darker,
             }}
           >
-            <Icon name={ iconName } />
+            <Icon verticalAlign='bottom' name={ iconName } />
           </Link>
       )
     );
@@ -134,13 +134,13 @@ class Owner extends React.Component {
           )
         }
         {
-          (!canEdit || (
+          (
             <PostList
               isTransparent={ !!this.props.children }
               owner={ this.props.params.owner }
               posts={ this.posts() }
             />
-          ))
+          )
         }
       </div>
     );
