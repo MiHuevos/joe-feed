@@ -21,6 +21,7 @@
     "ejs": "^2.3.1",
     "express": "^4.12.4",
     "immutable": "^3.7.3",
+    "joe-feed-ad-fixtures-plugin": "^1.0.0",
     "marked": "^0.3.3",
     "material-design-iconfont": "^0.1.7",
     "medium-editor": "^5.0.0-rc.1",
