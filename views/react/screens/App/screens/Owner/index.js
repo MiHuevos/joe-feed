@@ -26,14 +26,9 @@ class Owner extends React.Component {
 
   constructor(props) {
     super(props);
-    this.toggleTap = this.toggleTap.bind(this);
     this.state = {
       isEditing: false,
     };
-  }
-
-  toggleTap() {
-    console.log('toggle!');
   }
 
   generateAddIcon() {

@@ -1,6 +1,6 @@
 const request = require('superagent');
 
-export function* toggleFavorite(ownerId, toFavorite) {
+export function* toggleFavorite({ ownerId, toFavorite }) {
   var favorites = [].concat(window.flux.state.userData.favorites);
   if (!toFavorite) {
     var index = favorites.indexOf(ownerId);

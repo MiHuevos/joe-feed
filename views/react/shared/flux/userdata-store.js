@@ -11,7 +11,6 @@ module.exports = {
     };
   },
   favoriteToggled(state, favorites) {
-    console.log(state, favorites);
     return {
       ...state,
       favorites

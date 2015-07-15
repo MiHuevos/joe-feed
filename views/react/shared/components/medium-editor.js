@@ -12,7 +12,8 @@ const initialText = '<h2>כותרת</h2><p>תוכן...</p>';
 class MediumMarkdownEditor extends React.Component {
   static propTypes = {
     onChange: React.PropTypes.func,
-    currentRoutes: React.PropTypes.array
+    currentRoutes: React.PropTypes.array,
+    isDisabled: React.PropTypes.bool,
   };
 
   constructor(props) {
@@ -29,7 +30,7 @@ class MediumMarkdownEditor extends React.Component {
     this.setState({
       javascriptEnabled: true,
     });
-    const editorElement = this.initializeMediumEditorElement();
+    this.initializeMediumEditorElement();
     this.onChange();
   }
 
@@ -98,6 +99,7 @@ class MediumMarkdownEditor extends React.Component {
             outline: 0,
             fontSize: '100%',
           }}
+          disabled={ this.props.isDisabled }
           defaultValue={toMarkdown(initialText)}
           name='markdown'
         />

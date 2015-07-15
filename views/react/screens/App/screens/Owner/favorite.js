@@ -20,7 +20,10 @@ class Favorite extends React.Component {
   }
 
   toggleFavorite() {
-    this.props.flux.push(UserDataActions.toggleFavorite, this.props.owner, !this.isFavorited());
+    this.props.flux.push(UserDataActions.toggleFavorite, {
+      ownerId: this.props.owner,
+      toFavorite: !this.isFavorited()
+    });
   }
 
   isFavorited() {

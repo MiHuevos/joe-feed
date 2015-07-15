@@ -38,6 +38,8 @@ const listen = (storeNames) => {
         flux: React.PropTypes.object,
       };
 
+      static realComponent = Component.realComponent || Component;
+
       render() {
         const stores = storeNames.reduce((storesObject, storeName) => {
           storesObject[storeName] = this.context.flux.state[storeName];
@@ -60,6 +62,8 @@ const route = (Component) => {
     static childContextTypes = {
       flux: React.PropTypes.object,
     }
+
+    static realComponent = Component.realComponent || Component;
 
     getChildContext() {
       return {

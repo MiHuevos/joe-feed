@@ -7,6 +7,7 @@ const { route } = require('flux');
 class NewPost extends React.Component {
   static contextTypes = {
     flux: React.PropTypes.object,
+    router: React.PropTypes.object,
   };
   static propTypes = {
     params: React.PropTypes.shape({
@@ -31,6 +32,8 @@ class NewPost extends React.Component {
     this.context.flux.push(PostActions.createPost, {
       owner: this.props.params.owner,
       markdown: this.state.markdown,
+    }, (err, { postedOn, id }) => {
+      this.context.router.transitionTo(`/${postedOn}/post-${id}`);
     });
   }
 
