@@ -4,8 +4,7 @@ import { expect } from 'chai';
 
 describe('Post', () => {
   it('should be okay', () => {
-    var poster = <Post />;
-    console.log(Object.keys(Post));
+    var poster = <Post id="id" text="Hello *darling*" owner={{ name: 'Gal', id: 'schniz' }} />;
     expect(poster).to.be.ok;
   });
 });

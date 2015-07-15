@@ -34,6 +34,7 @@
     "no-shadow": [0],
     "no-unused-vars": [1],
     "no-use-before-define": [2, "nofunc"],
+    "no-unused-expressions": [0],
 
     "react/jsx-boolean-value": 1,
     "react/jsx-quotes": 1,
