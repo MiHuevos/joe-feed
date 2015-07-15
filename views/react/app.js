@@ -8,21 +8,16 @@ const { Router } = require('react-router');
 const BrowserHistory = require('react-router/lib/BrowserHistory');
 const history = new BrowserHistory();
 const flux = window.flux = new Flux();
-const Im = require('immutable');
-var lastFlux = Im.Map();
+
+import Provider from 'flux/provider';
 require('moment').locale('he');
 
-flux.listen(() => {
-  const newFlux = Im.fromJS(flux.toJSON());
-  if (Im.is(newFlux, lastFlux)) return;
-  if (lastFlux) console.log('rerender..');
-  lastFlux = newFlux;
-  React.render(
+flux.start();
+React.render(
+  <Provider cosm={ flux }>
     <Router
       children={ routes({ flux, shouldListen: true }) }
       history={ history }
-    />, document.getElementById("main")
-  );
-});
-
-flux.start();
+    />
+  </Provider>, document.getElementById("main")
+);
