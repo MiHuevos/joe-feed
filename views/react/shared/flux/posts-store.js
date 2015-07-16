@@ -10,6 +10,7 @@ module.exports = {
     return {
       [PostsActions.fetchPostsData]: this.fetchedPosts,
       [PostsActions.createPost]: this.postCreated,
+      [PostsActions.deletePost]: this.postDeleted,
     };
   },
   serialize(state) {
@@ -27,5 +28,8 @@ module.exports = {
     return newState.merge(Im.fromJS({
       [createdPost.id]: createdPost
     }));
+  },
+  postDeleted(state, { id }) {
+    return state.remove(id);
   },
 };

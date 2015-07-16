@@ -22,6 +22,19 @@ export function* createPost({ owner, markdown }) {
   });
 }
 
+export function* deletePost({ id }) {
+  yield {
+    id: id,
+  };
+
+  yield new Promise((resolve, reject) => {
+    request.del(`/api/posts/${id}`).end((err, res) => {
+      if (err || res.status !== 200) return reject(new Error('not saved'));
+      return resolve({ id });
+    });
+  });
+}
+
 export function* fetchPostsData(owner) {
   yield new Promise((resolve, reject) => {
     request(`/api/posts?ownerId=${owner}`, (err, res) => {
