@@ -1,7 +1,7 @@
 Joe Feed
 ========
 
-Simple posting for organization - based on Active Directory and `REMOTE_USER`.
+Simple posting for organization - based on simple permission model, like Active Directory plugins.
 
 Isomorphic
 ----------
